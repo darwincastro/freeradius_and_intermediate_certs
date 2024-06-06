@@ -12,6 +12,7 @@ The certificates are used for securing communication between network devices and
 
 The script will create the following directory structure:
 
+```
 c9800_and_intermediate_certs/
 ├── mkcerts.sh
 ├── .root_openssl.cnf
@@ -23,13 +24,14 @@ c9800_and_intermediate_certs/
 │ ├── crl/
 │ ├── newcerts/
 │ ├── private/
-│ ├── intermediate/
+│ └── intermediate/
 │ ├── certs/
 │ ├── crl/
 │ ├── csr/
 │ ├── newcerts/
 │ └── private/
 └── .env
+```
 
 ## Getting Started
 
@@ -37,7 +39,6 @@ c9800_and_intermediate_certs/
 
 ```sh
 git https://github.com/darwincastro/c9800_and_intermediate_certs.git
-
 cd c9800_and_intermediate_certs
 ```
 
@@ -89,12 +90,15 @@ Combine CA Certificates:
 13. Validate the PFX Bundle:
     Validate the generated PFX bundle.
 
+
 > The mkcerts.sh creates a PKCS#12 bundle in the working directory called WLC-CA.pfx it contains the WLC key, WLC certificate, ROOT CA certificate, and Intermediate CA certificate. The script will also combine ROOT CA and Intermediate CA placing it in the working directory for quick access.
+
 
 
 > [!IMPORTANT]  
 > - Ensure the .root_openssl, .device.cnf, .intermediate.cnf, and .env configuration files are correctly set up and present in the same directory as the script.
 > - The script assumes the password specified in the .env file is cisco. Adjust the password as needed.
+
 
 
 ## Troubleshooting
