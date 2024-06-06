@@ -1,0 +1,17 @@
+[ req ]
+default_bits        = 4096
+distinguished_name  = req_distinguished_name
+string_mask         = utf8only
+
+[ req_distinguished_name ]
+C               = Country Name (2 letter code)
+C_default       = US
+ST              = State or Province Name (full name)
+ST_default      = Texas
+L               = Locality Name (eg, city)
+L_default       = Richardson
+O               = Organization Name (eg, company)
+O_default       = Cisco
+OU              = Organizational Unit (eg, section)
+OU_default      = My Organizational Unit
+CN              = Common Name (e.g. server FQDN or YOUR name)
