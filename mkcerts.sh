@@ -67,48 +67,36 @@ combined_ca_pem="$INTERMEDIATE_CA_DIR/certs/ca-chain.cert.pem"
 cat $INTERMEDIATE_CA_DIR/certs/intermediate.cert.pem \
     $ROOT_CA_DIR/certs/ca.cert.pem > $combined_ca_pem
 
-# Generate WLC key and CSR
-echo -e "${CYAN}Generating WLC key${RESET}"
-openssl genrsa -aes256 -out $INTERMEDIATE_CA_DIR/private/wlc.key.pem 4096
+# Generate FreeRADIUS key and CSR
+echo -e "${CYAN}Generating FreeRADIUS key${RESET}"
+openssl genrsa -aes256 -out $INTERMEDIATE_CA_DIR/private/server.key.pem 4096
 
-echo -e "\n${YELLOW}Please add the WLC information${RESET}"
+echo -e "\n${YELLOW}Please add the FreeRADIUS information${RESET}"
 openssl req -new -sha256 \
-    -key $INTERMEDIATE_CA_DIR/private/wlc.key.pem \
-    -out $INTERMEDIATE_CA_DIR/csr/wlc.csr.pem \
+    -key $INTERMEDIATE_CA_DIR/private/server.key.pem \
+    -out $INTERMEDIATE_CA_DIR/csr/server.csr.pem \
     -passout pass:${PASS} \
     -config $WORKING_DIR/.device.cnf \
     -passin pass:${PASS}
 
 # Sign the WLC CSR with the Intermediate CA
-echo -e "${CYAN}Signing WLC CSR with Subordinate CA${RESET}"
+echo -e "${CYAN}Signing FreeRADIUS CSR with Subordinate CA${RESET}"
 openssl ca -config "$INTER_CONF" \
     -extensions usr_cert -days 375 -notext -md sha256 \
-    -in "$INTERMEDIATE_CA_DIR/csr/wlc.csr.pem" \
-    -out "$INTERMEDIATE_CA_DIR/certs/wlc.cert.pem" \
+    -in "$INTERMEDIATE_CA_DIR/csr/server.csr.pem" \
+    -out "$INTERMEDIATE_CA_DIR/certs/server.cert.pem" \
     -keyfile "$INTERMEDIATE_CA_DIR/private/intermediate.key.pem"
 
-# Check if the WLC certificate was created successfully
-if [ -f "$INTERMEDIATE_CA_DIR/certs/wlc.cert.pem" ]; then
-    echo -e "${GREEN}WLC certificate signed successfully.${RESET}"
+# Check if the FreeRADIUS certificate was created successfully
+if [ -f "$INTERMEDIATE_CA_DIR/certs/server.cert.pem" ]; then
+    echo -e "${GREEN}FreeRADIUS certificate signed successfully.${RESET}"
 else
-    echo -e "${RED}Failed to sign WLC certificate. Please check the configuration and input files.${RESET}"
+    echo -e "${RED}Failed to sign FreeRADIUS certificate. Please check the configuration and input files.${RESET}"
     exit 1
 fi
-
-# Create a PFX bundle
-echo -e "${CYAN}Creating PFX bundle for WLC${RESET}"
-openssl pkcs12 -export -out "$WORKING_DIR/WLC-CA.pfx" \
-    -inkey "$INTERMEDIATE_CA_DIR/private/wlc.key.pem" \
-    -in "$INTERMEDIATE_CA_DIR/certs/wlc.cert.pem" \
-    -certfile "$combined_ca_pem" \
-    -passout pass:${PASS}
 
 # Copy the ca-chain.cert.pem to the working directory
 cp "$combined_ca_pem" "$WORKING_DIR/ca-chain.cert.pem"
 
-# Validate the PFX bundle
-echo -e "${CYAN}Validating PFX bundle${RESET}"
-openssl pkcs12 -in "$WORKING_DIR/WLC-CA.pfx" \
-    -noout -info -passin pass:${PASS}
 
-echo -e "${GREEN}Certificate creation and PFX bundling complete!${RESET}"
+echo -e "${GREEN}Certificate creation complete!${RESET}"

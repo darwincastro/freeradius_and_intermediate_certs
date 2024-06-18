@@ -1,6 +1,6 @@
 # Certificate Authority Setup
 
-This repository contains a script to generate a Root CA, an Intermediate CA, and sign a Wireless LAN Controller (WLC) certificate using OpenSSL. 
+This repository contains a script to generate a Root CA, an Intermediate CA, and sign a FreeRADIUS Server certificate using OpenSSL. 
 
 The certificates are used for securing communication between network devices and FreeRADIUS server.
 
@@ -13,7 +13,7 @@ The certificates are used for securing communication between network devices and
 The script will create the following directory structure:
 
 ```
-c9800_and_intermediate_certs/
+freeradius_and_intermediate_certs/
 ├── mkcerts.sh
 ├── .root_openssl.cnf
 ├── .intermediate_openssl.cnf
@@ -38,8 +38,8 @@ c9800_and_intermediate_certs/
 1. Clone the Repository
 
 ```sh
-git https://github.com/darwincastro/c9800_and_intermediate_certs.git
-cd c9800_and_intermediate_certs
+git clone https://github.com/darwincastro/freeradius_and_intermediate_certs.git
+cd freeradius_and_intermediate_certs
 ```
 
 2. Run the script:
@@ -78,27 +78,16 @@ Combine CA Certificates:
 
 9. Combines the Intermediate CA and ROOT CA certificates into a single PEM file.
 
-10. Generate WLC Key and CSR:
+10. Generate freeradius Key and CSR:
     Generates the WLC key and CSR.
 
-11. Sign WLC CSR with Intermediate CA:
+11. Sign FreeRADIUS CSR with Intermediate CA:
     Sign the WLC CSR with the Intermediate CA.
-
-12. Create PFX Bundle:
-    Creates a PFX bundle containing the WLC certificate and keys.
-
-13. Validate the PFX Bundle:
-    Validate the generated PFX bundle.
-
-
-> The mkcerts.sh creates a PKCS#12 bundle in the working directory called WLC-CA.pfx it contains the WLC key, WLC certificate, ROOT CA certificate, and Intermediate CA certificate. The script will also combine ROOT CA and Intermediate CA placing it in the working directory for quick access.
-
 
 
 > [!IMPORTANT]  
 > - Ensure the .root_openssl, .device.cnf, .intermediate.cnf, and .env configuration files are correctly set up and present in the same directory as the script.
 > - The script assumes the password specified in the .env file is cisco. Adjust the password as needed.
-
 
 
 ## Troubleshooting
