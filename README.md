@@ -74,15 +74,15 @@ The `mkcerts.sh` script performs the following tasks:
 
 8. Sign Intermediate CA with ROOT CA:
     Signs the Intermediate CA CSR with the ROOT CA.
-Combine CA Certificates:
 
-9. Combines the Intermediate CA and ROOT CA certificates into a single PEM file.
+9. Combine CA Certificates:
+Combines the Intermediate CA and ROOT CA certificates into a single PEM file.
 
-10. Generate freeradius Key and CSR:
-    Generates the WLC key and CSR.
+10. Generate FreeRADIUS Key and CSR:
+    Generates the FreeRADIUS key and CSR.
 
 11. Sign FreeRADIUS CSR with Intermediate CA:
-    Sign the WLC CSR with the Intermediate CA.
+    Sign the FreeRADIUS CSR with the Intermediate CA.
 
 
 > [!IMPORTANT]  
