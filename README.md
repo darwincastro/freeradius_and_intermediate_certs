@@ -97,4 +97,7 @@ If you encounter any issues, ensure that:
 - The .env file is correctly formatted and placed in the root directory.
 - The configuration files are correctly set up.
 
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
 
